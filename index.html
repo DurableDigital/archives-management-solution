@@ -44,10 +44,26 @@
     <main id="swagger-ui"></main>
     <script src="https://cdn.jsdelivr.net/npm/swagger-ui-dist@5.17.14/swagger-ui-bundle.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swagger-ui-dist@5.17.14/swagger-ui-standalone-preset.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fflate@0.8.2/umd/index.js"></script>
     <script>
-      window.addEventListener("load", () => {
+      async function loadSpec() {
+        const response = await fetch("./spec/openapi.json.gz.b64");
+        if (!response.ok) {
+          throw new Error(`Unable to load OpenAPI spec: ${response.status}`);
+        }
+
+        const compressed = Uint8Array.from(
+          atob((await response.text()).trim()),
+          (character) => character.charCodeAt(0),
+        );
+        const json = new TextDecoder().decode(fflate.gunzipSync(compressed));
+        return JSON.parse(json);
+      }
+
+      window.addEventListener("load", async () => {
+        const spec = await loadSpec();
         window.ui = SwaggerUIBundle({
-          url: "./spec/openapi.json",
+          spec,
           dom_id: "#swagger-ui",
           deepLinking: true,
           displayOperationId: true,
