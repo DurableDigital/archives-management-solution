@@ -17,6 +17,7 @@ concurrency:
 
 jobs:
   deploy:
+    # Publishes the static Swagger UI site from the repository root.
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
