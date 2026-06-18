@@ -4,7 +4,7 @@ Static Swagger UI documentation for the Durable Archives Management Solution API
 
 When GitHub Pages has deployed, the public documentation is available at:
 
-https://dc-durable.github.io/archives-management-solution/
+https://durabledigital.github.io/archives-management-solution/
 
 ## Local Preview
 
